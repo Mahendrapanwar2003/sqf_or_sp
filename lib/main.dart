@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
   }
 
   clickOnSharedPreference() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const SharedPreferences(),));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const SD(),));
   }
 
   clickOnAddButton() async {
