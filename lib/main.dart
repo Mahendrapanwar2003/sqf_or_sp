@@ -132,10 +132,14 @@ class _HomeState extends State<Home> {
     Database? db = await DBHelper.dbHelperInstance.openDB();
     if (db != null) {
       List names = ["mmmm","tttt","sssss"];
+      String nameListString = names.join(",").toString();
+      List nameList = nameListString.split(",");
+      print("names::::::::::::$names");
+      print("nameList::::::::::::$nameList");
       UserData userData = UserData(
           name: 'Mahendra',
           number: "9098977418",
-          email: names.join(",").toString(),
+          email: nameListString,
           boolValue: "1",
           numberValue: '222245557');
       int isAddList = await DBHelper.dbHelperInstance
