@@ -26,11 +26,23 @@ class DBHelper {
   }
 
   createTable({required Database db}) async {
-    await db.execute(
-        'CREATE TABLE IF NOT EXISTS ${DBConstant.tableName} (${DBConstant.columnId} ${DBDataType.integerPrimaryKeyAutoIncrement}, ${DBConstant.columnName} ${DBDataType.nameText}, ${DBConstant.columnNumber} ${DBDataType.numberVarchar}, ${DBConstant.columnEmail} ${DBDataType.emailText}, ${DBConstant.columnNumberValue} ${DBDataType.number},${DBConstant.columnBool} ${DBDataType.bool})');
+    await db.execute('''CREATE TABLE IF NOT EXISTS ${DBConstant.tableName} 
+        (${DBConstant.columnId} ${DBDataType.integerPrimaryKeyAutoIncrement}, 
+        ${DBConstant.columnName} ${DBDataType.nameText}, ${DBConstant.columnNumber} 
+        ${DBDataType.numberVarchar}, ${DBConstant.columnEmail} ${DBDataType.emailText}, 
+        ${DBConstant.columnNumberValue} ${DBDataType.number},
+        ${DBConstant.columnBool} ${DBDataType.bool})''');
   }
 
   insertTableRow(
+      {required Database db, required Map<String, dynamic> data}) async {
+    return await db.insert(
+      DBConstant.tableName,
+      data,
+    );
+  }
+
+  insertTableRowList(
       {required Database db, required Map<String, dynamic> data}) async {
     return await db.insert(
       DBConstant.tableName,

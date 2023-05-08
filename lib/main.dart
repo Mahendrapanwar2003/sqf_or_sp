@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqf_or_sp/shared_preference/shared_preference.dart';
 import 'package:sqf_or_sp/sqf_lite/db_helper.dart';
 import 'package:sqf_or_sp/sqf_lite/user_data.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,6 +37,10 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             ElevatedButton(
+              onPressed: () => clickOnSharedPreference(),
+              child: const Text("SP"),
+            ),
+            ElevatedButton(
               onPressed: () => clickOnAddButton(),
               child: const Text("ADD"),
             ),
@@ -55,10 +60,18 @@ class _HomeState extends State<Home> {
               onPressed: () => clickOnUpdateRowButton(),
               child: const Text("UPDATE ROW COLUMN"),
             ),
+            ElevatedButton(
+              onPressed: () => clickOnInsertList(),
+              child: const Text("INSERT LIST"),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  clickOnSharedPreference() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const SharedPreferences(),));
   }
 
   clickOnAddButton() async {
@@ -81,7 +94,7 @@ class _HomeState extends State<Home> {
     Database? db = await DBHelper.dbHelperInstance.openDB();
     if (db != null) {
       List<Map> isGet =
-          await DBHelper.dbHelperInstance.getTableRow(db: db, id: "5");
+          await DBHelper.dbHelperInstance.getTableRow(db: db, id: "3");
       print("isGet:::::::::::::$isGet");
     }
   }
@@ -90,7 +103,7 @@ class _HomeState extends State<Home> {
     Database? db = await DBHelper.dbHelperInstance.openDB();
     if (db != null) {
       int isDelete =
-          await DBHelper.dbHelperInstance.deleteTableRow(db: db, id: "4");
+          await DBHelper.dbHelperInstance.deleteTableRow(db: db, id: "1");
       print("isDelete:::::::::::::$isDelete");
     }
   }
@@ -110,6 +123,24 @@ class _HomeState extends State<Home> {
       int isUpdateRowColumn =
           await DBHelper.dbHelperInstance.updateTableRowColumn(db: db, id: "3");
       print("isUpdateRowColumn:::::::::::::$isUpdateRowColumn");
+    }
+  }
+
+
+
+  clickOnInsertList() async {
+    Database? db = await DBHelper.dbHelperInstance.openDB();
+    if (db != null) {
+      List names = ["mmmm","tttt","sssss"];
+      UserData userData = UserData(
+          name: 'Mahendra',
+          number: "9098977418",
+          email: names.join(",").toString(),
+          boolValue: "1",
+          numberValue: '222245557');
+      int isAddList = await DBHelper.dbHelperInstance
+          .insertTableRowList(db: db, data: userData.toMap());
+      print("isAddList:::::::::::::$isAddList");
     }
   }
 }
