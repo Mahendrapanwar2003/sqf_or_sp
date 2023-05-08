@@ -27,9 +27,10 @@ class DBHelper {
 
   createTable({required Database db}) async {
     await db.execute('''CREATE TABLE IF NOT EXISTS ${DBConstant.tableName} 
-        (${DBConstant.columnId} ${DBDataType.integerPrimaryKeyAutoIncrement}, 
-        ${DBConstant.columnName} ${DBDataType.nameText}, ${DBConstant.columnNumber} 
-        ${DBDataType.numberVarchar}, ${DBConstant.columnEmail} ${DBDataType.emailText}, 
+       (${DBConstant.columnId} ${DBDataType.integerPrimaryKeyAutoIncrement}, 
+        ${DBConstant.columnName} ${DBDataType.nameText},
+        ${DBConstant.columnNumber} ${DBDataType.numberVarchar},
+        ${DBConstant.columnEmail} ${DBDataType.emailText}, 
         ${DBConstant.columnNumberValue} ${DBDataType.number},
         ${DBConstant.columnBool} ${DBDataType.bool})''');
   }
@@ -42,12 +43,9 @@ class DBHelper {
     );
   }
 
-  insertTableRowList(
-      {required Database db, required Map<String, dynamic> data}) async {
-    return await db.insert(
-      DBConstant.tableName,
-      data,
-    );
+  getTableRow({required Database db, required String id}) async {
+    return await db.query(DBConstant.tableName,
+        where: "${DBConstant.columnId}=?", whereArgs: [id]);
   }
 
   deleteTableRow({required Database db, required String id}) async {
@@ -78,8 +76,11 @@ class DBHelper {
         ['Mahendra', '3']);
   }
 
-  getTableRow({required Database db, required String id}) async {
-    return await db.query(DBConstant.tableName,
-        where: "${DBConstant.columnId}=?", whereArgs: [id]);
+  insertTableRowList(
+      {required Database db, required Map<String, dynamic> data}) async {
+    return await db.insert(
+      DBConstant.tableName,
+      data,
+    );
   }
 }
