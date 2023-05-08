@@ -64,6 +64,13 @@ class _SDState extends State<SD> {
     sharedPreferences.setDouble('double', 90989.77418);
     List<String> list = ['Mahendra', 'manish', 'sapan', 'abhishek', 'aman'];
     sharedPreferences.setStringList('list', list);
+    sharedPreferences.setStringList('list1', [
+      'Mahendra',
+      9098977418.toString(),
+      true.toString(),
+      90989.77418.toString(),
+      list.toString()
+    ]);
   }
 
   clickOnGetButton() async {
@@ -73,6 +80,7 @@ class _SDState extends State<SD> {
     print("int:${sharedPreferences.getInt('int')}");
     print("double:${sharedPreferences.getDouble('double')}");
     print("list:${sharedPreferences.getStringList('list')}");
+    print("list1:${sharedPreferences.getStringList('list1')}");
   }
 
   clickOnDeleteButton() async {
@@ -99,6 +107,13 @@ class _SDState extends State<SD> {
       'Update'
     ];
     sharedPreferences.setStringList('list', list);
+    sharedPreferences.setStringList('list1', [
+      'Mahendra',
+      123456789.toString(),
+      true.toString(),
+      12345.6789.toString(),
+      list.toString()
+    ]);
   }
 
   clickOnClearButton() async {
