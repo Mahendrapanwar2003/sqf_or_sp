@@ -175,10 +175,8 @@ class _HomeState extends State<Home> {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if(image != null){
-      Uint8List imageBytes = await image.readAsBytes(); // your image data
+      Uint8List imageBytes = await image.readAsBytes();
       String base64Image = base64Encode(imageBytes);
-      print("base64Image::::::::::::::${imageBytes}");
-      print("base64Image::::::::::::::${base64Image}");
       Database? db =await DBHelper.dbHelperInstance.openDB();
       if(db != null)
       {
@@ -188,7 +186,6 @@ class _HomeState extends State<Home> {
             email: "mahendra@gmail.com",
             boolValue: "1",
             numberValue: '222245557', image: imageBytes);
-        print("userData:::::::::::::::::${userData.image}");
         await DBHelper.dbHelperInstance.uploadImage(db: db,userData: userData.toMap());
       }
     }
