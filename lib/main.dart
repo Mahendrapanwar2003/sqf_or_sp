@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sqf_or_sp/shared_preference/shared_preference.dart';
+import 'package:sqf_or_sp/sqf_lite/db_constant.dart';
 import 'package:sqf_or_sp/sqf_lite/db_helper.dart';
 import 'package:sqf_or_sp/sqf_lite/user_data.dart';
 import 'package:sqflite/sqflite.dart';
@@ -64,6 +69,14 @@ class _HomeState extends State<Home> {
               onPressed: () => clickOnInsertList(),
               child: const Text("INSERT LIST"),
             ),
+            ElevatedButton(
+              onPressed: () => clickOnGetList(),
+              child: const Text("GET LIST"),
+            ),
+            ElevatedButton(
+              onPressed: () => clickOnUploadImage(),
+              child: const Text("UPLOAD IMAGE"),
+            ),
           ],
         ),
       ),
@@ -71,7 +84,11 @@ class _HomeState extends State<Home> {
   }
 
   clickOnSharedPreference() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const SD(),));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SD(),
+        ));
   }
 
   clickOnAddButton() async {
@@ -94,7 +111,7 @@ class _HomeState extends State<Home> {
     Database? db = await DBHelper.dbHelperInstance.openDB();
     if (db != null) {
       List<Map> isGet =
-          await DBHelper.dbHelperInstance.getTableRow(db: db, id: "3");
+          await DBHelper.dbHelperInstance.getTableRow(db: db, id: "22");
       print("isGet:::::::::::::$isGet");
     }
   }
@@ -126,12 +143,10 @@ class _HomeState extends State<Home> {
     }
   }
 
-
-
   clickOnInsertList() async {
     Database? db = await DBHelper.dbHelperInstance.openDB();
     if (db != null) {
-      List names = ["mmmm","tttt","sssss"];
+      List names = ["mmmm", "tttt", "sssss"];
       String nameListString = names.join(",").toString();
       List nameList = nameListString.split(",");
       print("names::::::::::::$names");
@@ -145,6 +160,37 @@ class _HomeState extends State<Home> {
       int isAddList = await DBHelper.dbHelperInstance
           .insertTableRowList(db: db, data: userData.toMap());
       print("isAddList:::::::::::::$isAddList");
+    }
+  }
+
+  clickOnGetList() async {
+    Database? db = await DBHelper.dbHelperInstance.openDB();
+    if (db != null) {
+      List<Map<String, Object?>> list = await DBHelper.dbHelperInstance.getList(db: db);
+      print("isGetList:::::::::::::$list");
+    }
+  }
+
+  clickOnUploadImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if(image != null){
+      Uint8List imageBytes = await image.readAsBytes(); // your image data
+      String base64Image = base64Encode(imageBytes);
+      print("base64Image::::::::::::::${imageBytes}");
+      print("base64Image::::::::::::::${base64Image}");
+      Database? db =await DBHelper.dbHelperInstance.openDB();
+      if(db != null)
+      {
+        UserData userData = UserData(
+            name: 'Mahendra Image',
+            number: "9098977418",
+            email: "mahendra@gmail.com",
+            boolValue: "1",
+            numberValue: '222245557', image: imageBytes);
+        print("userData:::::::::::::::::${userData.image}");
+        await DBHelper.dbHelperInstance.uploadImage(db: db,userData: userData.toMap());
+      }
     }
   }
 }

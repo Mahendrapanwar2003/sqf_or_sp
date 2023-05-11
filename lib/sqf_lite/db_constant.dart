@@ -8,6 +8,7 @@ class DBConstant {
   static String columnEmail = "Email";
   static String columnBool = "BoolValue";
   static String columnNumberValue = "NumberValue";
+  static String columnImage = "Image";
 }
 
 class DBDataType {
@@ -18,4 +19,5 @@ class DBDataType {
   static String numberVarchar = 'VARCHAR NOT NULL';
   static String bool = 'BOOLEAN NOT NULL';
   static String number = 'NUMBER';
+  static String image = 'TEXT';
 }

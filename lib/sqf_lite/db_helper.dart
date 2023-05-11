@@ -32,7 +32,8 @@ class DBHelper {
         ${DBConstant.columnNumber} ${DBDataType.numberVarchar},
         ${DBConstant.columnEmail} ${DBDataType.emailText}, 
         ${DBConstant.columnNumberValue} ${DBDataType.number},
-        ${DBConstant.columnBool} ${DBDataType.bool})''');
+        ${DBConstant.columnBool} ${DBDataType.bool},
+        ${DBConstant.columnImage} ${DBDataType.image})''');
   }
 
   insertTableRow(
@@ -82,5 +83,19 @@ class DBHelper {
       DBConstant.tableName,
       data,
     );
+  }
+  getList(
+      {required Database db}) async {
+    return await db.query(
+      DBConstant.tableName,
+    );
+  }
+
+  uploadImage({required Database db,required Map<String, dynamic> userData}) async {
+    return
+      await db.insert(
+          DBConstant.tableName,
+          userData
+      );
   }
 }

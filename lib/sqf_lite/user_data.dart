@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:sqf_or_sp/sqf_lite/db_constant.dart';
 
 class UserData {
@@ -6,6 +8,8 @@ class UserData {
   String? email;
   String? numberValue;
   String? boolValue;
+  // String? image;
+   Uint8List? image;
 
   UserData({
     required this.name,
@@ -13,6 +17,7 @@ class UserData {
     required this.email,
     required this.numberValue,
     required this.boolValue,
+    this.image,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,6 +28,7 @@ class UserData {
       DBConstant.columnEmail: email,
       DBConstant.columnNumberValue: numberValue,
       DBConstant.columnBool: boolValue,
+      DBConstant.columnImage: image,
     };
   }
 
@@ -32,5 +38,6 @@ class UserData {
     email = json[DBConstant.columnEmail];
     numberValue = json[DBConstant.columnNumberValue];
     boolValue = json[DBConstant.columnBool];
+    image = json[DBConstant.columnImage];
   }
 }
